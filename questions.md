@@ -16,7 +16,7 @@ Vastaa alla oleviin kysymyksiin omin sanoin. Kirjoita vastauksesi kysymysten all
 Miksi on ongelma jos controller sisältää kaiken logiikan (tietokantakyselyt, muunnokset, validoinnin)? Anna vähintään kaksi konkreettista haittaa.
 
 **Vastaus:**
-
+Tiedoston koko paisuu valtavasti ja koodista tulee mahdotonta huoltaa ja kehittää.
 
 ---
 
