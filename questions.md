@@ -24,11 +24,11 @@ Tiedoston koko paisuu valtavasti ja koodista tulee mahdotonta huoltaa ja kehitt�
 
 Miten vastuut jakautuvat controller:n, service:n ja repository:n välillä tässä harjoituksessa? Kirjoita lyhyt kuvaus kunkin kerroksen tehtävästä.
 
-**Controller vastaa:**
+**Controller vastaa:** HTTP pyynnöistä
 
-**Service vastaa:**
+**Service vastaa:** Pyyntöjen toteutuksesta
 
-**Repository vastaa:**
+**Repository vastaa:** Datasta
 
 
 ---
@@ -37,7 +37,7 @@ Miten vastuut jakautuvat controller:n, service:n ja repository:n välillä täss
 
 Miksi DTO ↔ Entity -muunnokset kuuluvat serviceen eikä controlleriin? Mitä hyötyä siitä on, että controller ei tunne `Product`-entiteettiä lainkaan?
 
-**Vastaus:**
+**Vastaus:** Muutokset tehdään servicessä eikä controllerissa, koska controllerin vastuu on vain hoitaa pyynnöt. Serviceä voi muuttaa rikkomatta controlleria.
 
 
 ---
@@ -48,8 +48,8 @@ Miksi DTO ↔ Entity -muunnokset kuuluvat serviceen eikä controlleriin? Mitä h
 
 Miksi controller injektoi `IProductService`-interfacen eikä suoraan `ProductService`-luokkaa? Mitä hyötyä tästä on?
 
-**Vastaus:**
-
+**Vastaus:** 
+controllerin ei tarvitse tietää, kuinka ProductService toimii. Koodi on selkeämpää.
 
 ---
 
@@ -57,7 +57,7 @@ Miksi controller injektoi `IProductService`-interfacen eikä suoraan `ProductSer
 
 Selitä ero näiden kolmen elinkaaren välillä ja anna esimerkki milloin kutakin käytetään:
 
-- **AddScoped:**
+- **AddScoped:** 
 - **AddSingleton:**
 - **AddTransient:**
 
