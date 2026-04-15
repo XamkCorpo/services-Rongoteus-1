@@ -1581,48 +1581,48 @@ Sovella kaikki vaiheet samassa järjestyksessä:
 
 ### 1. Service-kerros (Vaiheiden 1–6 tapaan)
 
-- [ ] Luo `Services/ICategoryService.cs` — interface, joka ottaa Request-DTO:ita ja palauttaa `CategoryResponse`
-- [ ] Luo `Services/CategoryService.cs` — toteutus, joka hoitaa kaikki DTO ↔ Entity -muunnokset
-- [ ] Controller välittää DTO:t serviceen ja palauttaa servicen antamat DTO:t sellaisenaan
-- [ ] Rekisteröi `ICategoryService` → `CategoryService` `Program.cs`:ssä
+- [x] Luo `Services/ICategoryService.cs` — interface, joka ottaa Request-DTO:ita ja palauttaa `CategoryResponse`
+- [x] Luo `Services/CategoryService.cs` — toteutus, joka hoitaa kaikki DTO ↔ Entity -muunnokset
+- [x] Controller välittää DTO:t serviceen ja palauttaa servicen antamat DTO:t sellaisenaan
+- [x] Rekisteröi `ICategoryService` → `CategoryService` `Program.cs`:ssä
 
 ### 2. Repository-kerros
 
-- [ ] Luo `Repositories/ICategoryRepository.cs` — interface kategorian tietokantaoperaatioille
-- [ ] Luo `Repositories/CategoryRepository.cs` — toteutus EF Coren kanssa
-- [ ] Rekisteröi `ICategoryRepository` → `CategoryRepository` `Program.cs`:ssä
-- [ ] Päivitä `CategoryService` käyttämään `ICategoryRepository`:a `AppDbContext`:n sijaan
+- [x] Luo `Repositories/ICategoryRepository.cs` — interface kategorian tietokantaoperaatioille
+- [x] Luo `Repositories/CategoryRepository.cs` — toteutus EF Coren kanssa
+- [x] Rekisteröi `ICategoryRepository` → `CategoryRepository` `Program.cs`:ssä
+- [x] Päivitä `CategoryService` käyttämään `ICategoryRepository`:a `AppDbContext`:n sijaan
 
 ### 3. Exception-käsittely
 
-- [ ] Lisää `ILogger<CategoryService>` konstruktoriin
-- [ ] Lisää try-catch repository-kutsujen ympärille
-- [ ] Lokita virheet `_logger.LogError`-kutsulla
+- [x] Lisää `ILogger<CategoryService>` konstruktoriin
+- [x] Lisää try-catch repository-kutsujen ympärille
+- [x] Lokita virheet `_logger.LogError`-kutsulla
 
 ### 4. Result Pattern
 
-- [ ] Päivitä `ICategoryService` palauttamaan `Result<T>` / `Result`
-- [ ] Päivitä `CategoryService` käyttämään `Result.Success()` / `Result.Failure()`
-- [ ] Päivitä `CategoriesController` käsittelemään `Result`-olioita
+- [x] Päivitä `ICategoryService` palauttamaan `Result<T>` / `Result`
+- [x] Päivitä `CategoryService` käyttämään `Result.Success()` / `Result.Failure()`
+- [x] Päivitä `CategoriesController` käsittelemään `Result`-olioita
 
 ### 5. Tyyppiturvallisuus ja API-dokumentaatio
 
-- [ ] Vaihda `IActionResult` → `ActionResult<CategoryResponse>` (paitsi Delete)
-- [ ] Lisää `[ProducesResponseType]`-attribuutit jokaiselle endpointille
-- [ ] Tarkista Swagger UI:sta, että response-schemat ja statuskoodit näkyvät oikein
+- [x] Vaihda `IActionResult` → `ActionResult<CategoryResponse>` (paitsi Delete)
+- [x] Lisää `[ProducesResponseType]`-attribuutit jokaiselle endpointille
+- [x] Tarkista Swagger UI:sta, että response-schemat ja statuskoodit näkyvät oikein
 
 ### Tarkistuslista
 
 Kun olet valmis, varmista:
 
-- [ ] `CategoryService` ei sisällä `using Microsoft.EntityFrameworkCore` -lausetta
-- [ ] `CategoryService` ottaa vastaan Request-DTO:ita ja palauttaa `CategoryResponse` / `Result<CategoryResponse>`
-- [ ] `CategoriesController` ei sisällä `null`-tarkistuksia — vain `result.IsFailure`
-- [ ] `CategoriesController` ei sisällä `.ToEntity()` tai `.ToResponse()` -kutsuja — service hoitaa kaiken
-- [ ] `CategoriesController` ei tarvitse `using ProductApi.Mappings` eikä `using ProductApi.Models` -lauseita
-- [ ] Swagger UI:ssa kaikki Category-endpointit toimivat ja näyttävät oikeat response-schemat
-- [ ] Swagger UI:ssa näkyvät kaikki mahdolliset statuskoodit (200, 201, 204, 400, 404)
-- [ ] Virhetilanteissa (esim. GET /api/categories/999) palautuu JSON-virheilmoitus
+- [x] `CategoryService` ei sisällä `using Microsoft.EntityFrameworkCore` -lausetta
+- [x] `CategoryService` ottaa vastaan Request-DTO:ita ja palauttaa `CategoryResponse` / `Result<CategoryResponse>`
+- [x] `CategoriesController` ei sisällä `null`-tarkistuksia — vain `result.IsFailure`
+- [x] `CategoriesController` ei sisällä `.ToEntity()` tai `.ToResponse()` -kutsuja — service hoitaa kaiken
+- [x] `CategoriesController` ei tarvitse `using ProductApi.Mappings` eikä `using ProductApi.Models` -lauseita
+- [x] Swagger UI:ssa kaikki Category-endpointit toimivat ja näyttävät oikeat response-schemat
+- [x] Swagger UI:ssa näkyvät kaikki mahdolliset statuskoodit (200, 201, 204, 400, 404)
+- [x] Virhetilanteissa (esim. GET /api/categories/999) palautuu JSON-virheilmoitus
 
 ---
 
