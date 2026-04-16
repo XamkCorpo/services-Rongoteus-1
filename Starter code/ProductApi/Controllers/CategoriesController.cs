@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProductApi.Data;
-using ProductApi.Mappings;
+using ProductApi.Common;
 using ProductApi.Models.Dtos;
+using ProductApi.Services;
 
 namespace ProductApi.Controllers;
 
@@ -10,53 +9,60 @@ namespace ProductApi.Controllers;
 [Route("api/[controller]")]
 public class CategoriesController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly ICategoryService _service;
 
-    public CategoriesController(AppDbContext context)
+    public CategoriesController(ICategoryService service)
     {
-        _context = context;
+        _service = service;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    [ProducesResponseType(typeof(List<ProductResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<List<CategoryResponse>>> GetAll()
     {
-        var categories = await _context.Categories.ToListAsync();
-        var response = categories.Select(c => c.ToResponse());
-        return Ok(response);
+        Result<List<CategoryResponse>> result = await _service.GetAllAsync();
+
+        if (result.IsFailure)
+            return StatusCode(500, new { error = result.Error });
+        return Ok(result.Value);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
+    [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<CategoryResponse>> GetById(int id)
     {
-        var category = await _context.Categories.FindAsync(id);
+        Result<CategoryResponse> result = await _service.GetByIdAsync(id);
 
-        if (category == null)
-            return NotFound();
+        if (result.IsFailure)
+            return NotFound(new { error = result.Error });
 
-        return Ok(category.ToResponse());
+        return Ok(result.Value);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateCategoryRequest request)
+    [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ProductResponse>> Create(CreateCategoryRequest request)
     {
-        var category = request.ToEntity();
+        Result<CategoryResponse> result = await _service.CreateAsync(request);
 
-        _context.Categories.Add(category);
-        await _context.SaveChangesAsync();
+        if (result.IsFailure)
+            return BadRequest(new { error = result.Error });
 
-        return CreatedAtAction(nameof(GetById), new { id = category.Id }, category.ToResponse());
+        return CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value);
     }
 
     [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
-        var category = await _context.Categories.FindAsync(id);
+        Result result = await _service.DeleteAsync(id);
 
-        if (category == null)
-            return NotFound();
-
-        _context.Categories.Remove(category);
-        await _context.SaveChangesAsync();
+        if (result.IsFailure)
+            return NotFound(new { error = result.Error });
 
         return NoContent();
     }
